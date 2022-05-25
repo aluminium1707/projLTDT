@@ -73,7 +73,9 @@ public class ToolBarPanel extends JPanel {
 		delVertexButton = new JButton();
 		delVertexButton.setIcon(
 				new ImageIcon(Toolkit.getDefaultToolkit().createImage(ToolBarPanel.class.getResource("delnode.png"))));
-
+		delVertexButton.addActionListener(actionListener);
+		delVertexButton.setActionCommand("delVertex");
+		
 		delEdgeButton = new JButton();
 		delEdgeButton.setIcon(
 				new ImageIcon(Toolkit.getDefaultToolkit().createImage(ToolBarPanel.class.getResource("delrow.png"))));
@@ -115,7 +117,7 @@ public class ToolBarPanel extends JPanel {
 
 		undirectedButton = new JRadioButton("Undirected");
 		undirectedButton.setForeground(Color.BLACK);
-		undirectedButton.setSelected(true);
+//		undirectedButton.setSelected(true);
 		undirectedButton.setFont(new Font("Rockwell", Font.BOLD, 23));
 		undirectedButton.setFocusable(false);
 		undirectedButton.addActionListener(actionListener);
@@ -124,7 +126,7 @@ public class ToolBarPanel extends JPanel {
 
 		directedButton = new JRadioButton("Directed");
 		directedButton.setForeground(Color.BLACK);
-		directedButton.setSelected(true);
+//		directedButton.setSelected(true);
 		directedButton.setFont(new Font("Rockwell", Font.BOLD, 23));
 		directedButton.setFocusable(false);
 		directedButton.addActionListener(actionListener);
@@ -155,7 +157,7 @@ public class ToolBarPanel extends JPanel {
 		openButton.setActionCommand("open");
 		saveButton.setActionCommand("save");
 		buttonNew.setActionCommand("buttonNew");
-		delVertexButton.setActionCommand("delVertex");
+		delEdgeButton.setActionCommand("delEdge");
 		moveButton.setActionCommand("move");
 		dFSButton.setActionCommand("dFS");
 		bFSButton.setActionCommand("bFS");

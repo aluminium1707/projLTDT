@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
@@ -52,6 +53,8 @@ public class PaintListener implements MouseListener {
 			graph.addVertex(el);
 			g2.fill(el);
 
+			System.out.println(graph.getVertexs().get(index - 1).getNameInteger());
+
 			FontMetrics metrics = g.getFontMetrics(font);
 			g.setFont(font);
 			g.setColor(Color.white);
@@ -59,9 +62,9 @@ public class PaintListener implements MouseListener {
 			int x = (int) (el.getX() + (el.getWidth() - metrics.stringWidth(string)) / 2);
 			int y = (int) (el.getY() + (el.getHeight() - metrics.getHeight()) / 2) + 14;
 			g.drawString(string, x, y);
-
 			index++;
 			paintPanel.setTypeButtonString("");
+			break;
 		}
 		case "addEdge": {
 			for (int i = 0; i < graph.getVertexs().size(); i++) {
@@ -160,7 +163,24 @@ public class PaintListener implements MouseListener {
 			}
 		}
 		case "delVertex": {
-			
+			for (int i = 0; i < graph.getVertexs().size(); i++) {
+				if (graph.getVertexs().get(i).getEllipse2d().contains(e.getX(), e.getY())) {
+					System.out.println("started");
+					paintPanel.setSelected1(graph.getVertexs().get(i));
+					Graphics graphics = paintPanel.getGraphics();
+					Graphics2D graphics2d = (Graphics2D) graphics;
+					graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+					graphics2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+					graphics2d.setColor(Color.white);
+					Ellipse2D ellipse2d = paintPanel.getSelected1().getEllipse2d();
+					ellipse2d.setFrame(paintPanel.getSelected1().getEllipse2d().getX() - 5,
+							paintPanel.getSelected1().getEllipse2d().getY() - 2, 60, 60);
+					graphics2d.fill(paintPanel.getSelected1().getEllipse2d());
+					graph.delVertex(paintPanel.getSelected1());
+					paintPanel.setTypeButtonString("");
+					break;
+				}
+			}
 		}
 		case "":
 		}
