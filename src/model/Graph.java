@@ -66,8 +66,6 @@ public class Graph {
 		edges.add(new Edge(diemdau, diemcuoi));
 		diemdau.dsKe.add(diemcuoi);
 		diemcuoi.dsKe.add(diemdau);
-		System.out.println(diemdau.index);
-		System.out.println(diemcuoi.index);
 	}
 
 	public void addUnderectedEdge(Vertex diemdau, Vertex diemcuoi) {
@@ -126,7 +124,18 @@ public class Graph {
 		mtkArrayList = resArrayList;
 	}
 	
-	public void delEdge(Edge edge) {
-		
+	public void delDirectedsEdge(Edge edge) {
+		mtkArrayList.get(edge.getNode1().index).set(edge.getNode2().index, 0);
+		edges.remove(new Edge(edge.getNode1(), edge.getNode2()));
+		edge.getNode1().dsKe.remove(edge.getNode2());
+		edge.getNode2().dsKe.remove(edge.getNode1());
+	}
+
+	public void delUndirectedsEdge(Edge edge) {
+		mtkArrayList.get(edge.getNode1().index).set(edge.getNode2().index, 0);
+		mtkArrayList.get(edge.getNode2().index).set(edge.getNode1().index, 0);
+		edges.remove(new Edge(edge.getNode1(), edge.getNode2()));
+		edge.getNode1().dsKe.remove(edge.getNode2());
+		edge.getNode2().dsKe.remove(edge.getNode1());
 	}
 }

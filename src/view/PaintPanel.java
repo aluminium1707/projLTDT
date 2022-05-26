@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import Controller.PaintListener;
+import model.Edge;
 import model.Graph;
 import model.Vertex;
 
@@ -21,7 +22,7 @@ public class PaintPanel extends JPanel {
 	static Vertex selected1, selected2;
 	private boolean directed = false;
 	private boolean undirecred = false;
-	private Point2D drawToPoint2d;
+	private Edge selectEdge;
 
 	public PaintPanel() {
 		this.init();
@@ -84,6 +85,14 @@ public class PaintPanel extends JPanel {
 
 	public static void setSelected2(Vertex selected2) {
 		PaintPanel.selected2 = selected2;
+	}
+
+	public Edge getSelectEdge() {
+		return selectEdge;
+	}
+
+	public void setSelectEdge(Edge selectEdge) {
+		this.selectEdge = selectEdge;
 	}
 
 	public Point2D center(Rectangle2D boundsRectangle2d) {

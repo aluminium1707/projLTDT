@@ -14,7 +14,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JToolBar;
 
 import Controller.GListenter;
-import model.Graph;
 
 public class ToolBarPanel extends JPanel {
 	private PaintPanel paint;
@@ -76,10 +75,12 @@ public class ToolBarPanel extends JPanel {
 				new ImageIcon(Toolkit.getDefaultToolkit().createImage(ToolBarPanel.class.getResource("delnode.png"))));
 		delVertexButton.addActionListener(actionListener);
 		delVertexButton.setActionCommand("delVertex");
-		
+
 		delEdgeButton = new JButton();
 		delEdgeButton.setIcon(
 				new ImageIcon(Toolkit.getDefaultToolkit().createImage(ToolBarPanel.class.getResource("delrow.png"))));
+		delEdgeButton.addActionListener(actionListener);
+		delEdgeButton.setActionCommand("delEdge");
 
 		moveButton = new JButton();
 		moveButton.setIcon(
@@ -157,7 +158,6 @@ public class ToolBarPanel extends JPanel {
 		openButton.setActionCommand("open");
 		saveButton.setActionCommand("save");
 		buttonNew.setActionCommand("buttonNew");
-		delEdgeButton.setActionCommand("delEdge");
 		moveButton.setActionCommand("move");
 		dFSButton.setActionCommand("dFS");
 		bFSButton.setActionCommand("bFS");
@@ -168,8 +168,8 @@ public class ToolBarPanel extends JPanel {
 	}
 
 	public void setEnable() {
-		java.util.Enumeration<javax.swing.AbstractButton> enumeration= gr.getElements();
-		while(enumeration.hasMoreElements()) {
+		java.util.Enumeration<javax.swing.AbstractButton> enumeration = gr.getElements();
+		while (enumeration.hasMoreElements()) {
 			enumeration.nextElement().setEnabled(false);
 		}
 	}

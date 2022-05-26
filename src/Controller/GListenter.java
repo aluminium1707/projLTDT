@@ -29,6 +29,9 @@ public class GListenter implements ActionListener {
 		if (inputString.equals("delVertex")) {
 			paintPanel.setTypeButtonString("delVertex");
 		}
+		if (inputString.equals("delEdge")) {
+			paintPanel.setTypeButtonString("delEdge");
+		}
 		if (inputString.equals("directed")) {
 			paintPanel.setDirected(true);
 		}
