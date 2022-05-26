@@ -65,6 +65,7 @@ public class Graph {
 		mtkArrayList.get(diemdau.index).set(diemcuoi.index, 1);
 		edges.add(new Edge(diemdau, diemcuoi));
 		diemdau.dsKe.add(diemcuoi);
+		diemcuoi.dsKe.add(diemdau);
 		System.out.println(diemdau.index);
 		System.out.println(diemcuoi.index);
 	}
@@ -74,33 +75,36 @@ public class Graph {
 		mtkArrayList.get(diemcuoi.index).set(diemdau.index, 1);
 		edges.add(new Edge(diemdau, diemcuoi));
 		diemdau.dsKe.add(diemcuoi);
+		diemcuoi.dsKe.add(diemdau);
 	}
 
-	private void themDinh(ArrayList<ArrayList<Integer>> mtkArrayList) {
-		if (mtkArrayList.size() == 0) {
-			mtkArrayList.add(new ArrayList<Integer>());
-			mtkArrayList.get(0).add(0);
-//			count++;
-			return;
-		}
-		for (int i = 0; i < mtkArrayList.size(); i++) {
-			mtkArrayList.get(i).add(0);
-		}
-		ArrayList<Integer> dongMoIntegers = new ArrayList<Integer>();
-		for (int i = 0; i < mtkArrayList.size() + 1; i++) {
-			dongMoIntegers.add(0);
-		}
-		mtkArrayList.add(dongMoIntegers);
-		for (int i = 1; i < mtkArrayList.size(); i++) {
-//			count++;
-		}
-	}
-
-	public void delVertex(Vertex vertex) {
+	public void delVertex(Vertex vertex, Ellipse2D el) {
 		ArrayList<ArrayList<Integer>> cloneArrayList = (ArrayList<ArrayList<Integer>>) mtkArrayList.clone();
+		ArrayList<ArrayList<Integer>> resArrayList = new ArrayList<ArrayList<Integer>>();
 		int count = 0;
 		int tmpX = -1;
 		int tmpY = -1;
+		for (int c = 0; c < mtkArrayList.size() - 1; c++) {
+			if (resArrayList.size() == 0) {
+				resArrayList.add(new ArrayList<Integer>());
+				resArrayList.get(0).add(0);
+				vertexs.add(new Vertex(mtkArrayList.size() - 1, resArrayList.size() - 1, new ArrayList<Vertex>(), el));
+				vertexs.get(0).setNameInteger(0);
+				return;
+			}
+			for (int i = 0; i < resArrayList.size(); i++) {
+				resArrayList.get(i).add(0);
+			}
+			ArrayList<Integer> dongMoIntegers = new ArrayList<Integer>();
+			for (int i = 0; i < resArrayList.size() + 1; i++) {
+				dongMoIntegers.add(0);
+				vertexs.add(new Vertex(resArrayList.size() - 1, resArrayList.size() - 1, new ArrayList<Vertex>(), el));
+			}
+			for (Vertex v : vertexs) {
+				vertex.setNameInteger(dongMoIntegers.size() - 1);
+			}
+			resArrayList.add(dongMoIntegers);
+		}
 		for (int i = 0; i < mtkArrayList.size(); i++) {
 			tmpX++;
 			if (i == vertex.getNameInteger()) {
@@ -115,10 +119,14 @@ public class Graph {
 				if (i != vertex.getNameInteger() && j != vertex.getNameInteger()) {
 					count++;
 					int n = cloneArrayList.get(i).get(j);
-					cloneArrayList.get(tmpX).set(tmpY, n);
+					resArrayList.get(tmpX).set(tmpY, n);
 				}
 			}
 		}
-		mtkArrayList = cloneArrayList;
+		mtkArrayList = resArrayList;
+	}
+	
+	public void delEdge(Edge edge) {
+		
 	}
 }

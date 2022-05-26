@@ -24,6 +24,7 @@ public class ToolBarPanel extends JPanel {
 	private JToolBar toolBar;
 	private JRadioButton directedButton;
 	private JRadioButton undirectedButton;
+	private ButtonGroup gr = new ButtonGroup();
 
 	public ToolBarPanel(PaintPanel paint) {
 		this.paint = paint;
@@ -145,7 +146,6 @@ public class ToolBarPanel extends JPanel {
 		bFSButton.setFocusPainted(false);
 		dijstraButton.setFocusPainted(false);
 
-		ButtonGroup gr = new ButtonGroup();
 		gr.add(undirectedButton);
 		gr.add(directedButton);
 
@@ -165,5 +165,12 @@ public class ToolBarPanel extends JPanel {
 		directedButton.setActionCommand("directed");
 		undirectedButton.setActionCommand("undirected");
 
+	}
+
+	public void setEnable() {
+		java.util.Enumeration<javax.swing.AbstractButton> enumeration= gr.getElements();
+		while(enumeration.hasMoreElements()) {
+			enumeration.nextElement().setEnabled(false);
+		}
 	}
 }

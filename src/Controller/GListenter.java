@@ -35,6 +35,8 @@ public class GListenter implements ActionListener {
 		if (inputString.equals("undirected")) {
 			paintPanel.setUndirecred(true);
 		}
-
+		if(paintPanel.isUndirecred()!= paintPanel.isDirected()) {
+			toolBarPanel.setEnable();
+		}
 	}
 }

@@ -161,25 +161,56 @@ public class PaintListener implements MouseListener {
 					}
 				}
 			}
+			break;
 		}
 		case "delVertex": {
 			for (int i = 0; i < graph.getVertexs().size(); i++) {
 				if (graph.getVertexs().get(i).getEllipse2d().contains(e.getX(), e.getY())) {
-					System.out.println("started");
+					System.out.println("del");
 					paintPanel.setSelected1(graph.getVertexs().get(i));
-					Graphics graphics = paintPanel.getGraphics();
-					Graphics2D graphics2d = (Graphics2D) graphics;
+					Graphics graphics1 = paintPanel.getGraphics();
+					Graphics2D graphics2d = (Graphics2D) graphics1;
 					graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 					graphics2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-					graphics2d.setColor(Color.white);
+					graphics2d.setColor(Color.WHITE);
 					Ellipse2D ellipse2d = paintPanel.getSelected1().getEllipse2d();
 					ellipse2d.setFrame(paintPanel.getSelected1().getEllipse2d().getX() - 5,
 							paintPanel.getSelected1().getEllipse2d().getY() - 2, 60, 60);
-					graphics2d.fill(paintPanel.getSelected1().getEllipse2d());
-					graph.delVertex(paintPanel.getSelected1());
-					paintPanel.setTypeButtonString("");
-					break;
+					graphics2d.fill(ellipse2d);
+					for (Vertex vertex : paintPanel.getSelected1().getDsKe()) {
+						if (paintPanel.isUndirecred() == true) {
+							graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+									RenderingHints.VALUE_ANTIALIAS_ON);
+							graphics2d.setRenderingHint(RenderingHints.KEY_RENDERING,
+									RenderingHints.VALUE_RENDER_QUALITY);
+							graphics2d.setStroke(new BasicStroke(15f));
+							graphics2d.setColor(Color.WHITE);
+//							graphics2d.draw(new Line2D.Double(paintPanel.getSelected1().getEllipse2d().getX(),
+//									paintPanel.getSelected1().getEllipse2d().getY(), vertex.getEllipse2d().getX(),
+//									vertex.getEllipse2d().getY()));
+							double from = paintPanel.angleBetween(paintPanel.getSelected1(), vertex);
+							double to = paintPanel.angleBetween(paintPanel.getSelected1(), vertex);
+
+							Point2D pointFromPoint2d = paintPanel.getPointOnCircle(paintPanel.getSelected1(), from);
+							Point2D pointToPoint2d = paintPanel.getPointOnCircle(vertex, to - 22);
+
+							graphics2d.draw(new Line2D.Double(pointFromPoint2d, pointToPoint2d));
+							graphics2d.setColor(Color.BLACK);
+							graphics2d.fill(vertex.getEllipse2d());
+							FontMetrics metrics = graphics1.getFontMetrics(font);
+							graphics1.setFont(font);
+							graphics1.setColor(Color.white);
+							String string = vertex.getNameInteger()+1+"";
+							int x = (int) (vertex.getEllipse2d().getX() + (vertex.getEllipse2d().getWidth() - metrics.stringWidth(string)) / 2);
+							int y = (int) (vertex.getEllipse2d().getY() + (vertex.getEllipse2d().getHeight() - metrics.getHeight()) / 2) + 14;
+							graphics1.drawString(string, x, y);
+							graph.delVertex(paintPanel.getSelected1(), paintPanel.getSelected1().getEllipse2d());
+						}
+					}
 				}
+				paintPanel.setSelected1(null);
+				paintPanel.setTypeButtonString("");
+				break;
 			}
 		}
 		case "":
