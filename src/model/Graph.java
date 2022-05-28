@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -43,8 +44,7 @@ public class Graph {
 		if (mtkArrayList.size() == 0) {
 			mtkArrayList.add(new ArrayList<Integer>());
 			mtkArrayList.get(0).add(0);
-			vertexs.add(new Vertex(mtkArrayList.size() - 1, mtkArrayList.size() - 1, new ArrayList<Vertex>(), el));
-			vertexs.get(0).setNameInteger(0);
+			vertexs.add(new Vertex(1, mtkArrayList.size() - 1, new ArrayList<Vertex>(), el));
 			return;
 		}
 		for (int i = 0; i < mtkArrayList.size(); i++) {
@@ -53,89 +53,55 @@ public class Graph {
 		ArrayList<Integer> dongMoIntegers = new ArrayList<Integer>();
 		for (int i = 0; i < mtkArrayList.size() + 1; i++) {
 			dongMoIntegers.add(0);
-			vertexs.add(new Vertex(mtkArrayList.size() - 1, mtkArrayList.size() - 1, new ArrayList<Vertex>(), el));
-		}
-		for (Vertex vertex : vertexs) {
-			vertex.setNameInteger(dongMoIntegers.size() - 1);
+			vertexs.add(new Vertex(dongMoIntegers.size(), mtkArrayList.size() - 1, new ArrayList<Vertex>(), el));
 		}
 		mtkArrayList.add(dongMoIntegers);
 	}
 
-	public void addDerectedEdge(Vertex diemdau, Vertex diemcuoi) {
+	public void addDerectedEdge(Vertex diemdau, Vertex diemcuoi, Line2D line2d) {
 		mtkArrayList.get(diemdau.index).set(diemcuoi.index, 1);
-		edges.add(new Edge(diemdau, diemcuoi));
+		edges.add(new Edge(diemdau, diemcuoi, line2d));
 		diemdau.dsKe.add(diemcuoi);
 		diemcuoi.dsKe.add(diemdau);
 	}
 
-	public void addUnderectedEdge(Vertex diemdau, Vertex diemcuoi) {
+	public void addUnderectedEdge(Vertex diemdau, Vertex diemcuoi, Line2D line2d) {
 		mtkArrayList.get(diemdau.index).set(diemcuoi.index, 1);
 		mtkArrayList.get(diemcuoi.index).set(diemdau.index, 1);
-		edges.add(new Edge(diemdau, diemcuoi));
+		edges.add(new Edge(diemdau, diemcuoi, line2d));
 		diemdau.dsKe.add(diemcuoi);
 		diemcuoi.dsKe.add(diemdau);
 	}
 
-	public void delVertex(Vertex vertex, Ellipse2D el) {
-		ArrayList<ArrayList<Integer>> cloneArrayList = (ArrayList<ArrayList<Integer>>) mtkArrayList.clone();
-		ArrayList<ArrayList<Integer>> resArrayList = new ArrayList<ArrayList<Integer>>();
-		int count = 0;
-		int tmpX = -1;
-		int tmpY = -1;
-		for (int c = 0; c < mtkArrayList.size() - 1; c++) {
-			if (resArrayList.size() == 0) {
-				resArrayList.add(new ArrayList<Integer>());
-				resArrayList.get(0).add(0);
-				vertexs.add(new Vertex(mtkArrayList.size() - 1, resArrayList.size() - 1, new ArrayList<Vertex>(), el));
-				vertexs.get(0).setNameInteger(0);
-				return;
-			}
-			for (int i = 0; i < resArrayList.size(); i++) {
-				resArrayList.get(i).add(0);
-			}
-			ArrayList<Integer> dongMoIntegers = new ArrayList<Integer>();
-			for (int i = 0; i < resArrayList.size() + 1; i++) {
-				dongMoIntegers.add(0);
-				vertexs.add(new Vertex(resArrayList.size() - 1, resArrayList.size() - 1, new ArrayList<Vertex>(), el));
-			}
-			for (Vertex v : vertexs) {
-				vertex.setNameInteger(dongMoIntegers.size() - 1);
-			}
-			resArrayList.add(dongMoIntegers);
-		}
+	public void delVertex(Vertex vertex) {
+		int num1, num2;
 		for (int i = 0; i < mtkArrayList.size(); i++) {
-			tmpX++;
-			if (i == vertex.getNameInteger()) {
-				tmpX--;
-			}
-			tmpY = -1;
 			for (int j = 0; j < mtkArrayList.size(); j++) {
-				tmpY++;
-				if (j == vertex.getNameInteger()) {
-					tmpY--;
-				}
-				if (i != vertex.getNameInteger() && j != vertex.getNameInteger()) {
-					count++;
-					int n = cloneArrayList.get(i).get(j);
-					resArrayList.get(tmpX).set(tmpY, n);
-				}
+				num1 = mtkArrayList.get(i).get(vertex.getNameVeretex() - 1);
+				num2 = mtkArrayList.get(i).get(mtkArrayList.size() - 1);
+				mtkArrayList.get(i).set(vertex.getNameVeretex() - 1, num2);
+				mtkArrayList.get(i).set(mtkArrayList.size() - 1, num1);
 			}
 		}
-		mtkArrayList = resArrayList;
+		mtkArrayList.remove(vertex.getNameVeretex() - 1);
+		vertexs.remove(vertex);
 	}
-	
+
 	public void delDirectedsEdge(Edge edge) {
 		mtkArrayList.get(edge.getNode1().index).set(edge.getNode2().index, 0);
-		edges.remove(new Edge(edge.getNode1(), edge.getNode2()));
+		edges.remove(edge);
 		edge.getNode1().dsKe.remove(edge.getNode2());
 		edge.getNode2().dsKe.remove(edge.getNode1());
+		System.out.println("dellllll");
 	}
 
 	public void delUndirectedsEdge(Edge edge) {
 		mtkArrayList.get(edge.getNode1().index).set(edge.getNode2().index, 0);
 		mtkArrayList.get(edge.getNode2().index).set(edge.getNode1().index, 0);
-		edges.remove(new Edge(edge.getNode1(), edge.getNode2()));
 		edge.getNode1().dsKe.remove(edge.getNode2());
+		edges.remove(edge);
 		edge.getNode2().dsKe.remove(edge.getNode1());
+		System.out.println("dellllll");
+
 	}
 }
