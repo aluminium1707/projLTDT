@@ -2,12 +2,15 @@ package Controller;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
@@ -34,6 +37,13 @@ public class PaintListener implements MouseListener {
 		super();
 		this.paintPanel = paintPanel;
 		this.font = new Font("Arial", font.BOLD, 15);
+		paintPanel.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent event) {
+				Component srComponent= (Component) event.getSource();
+				srComponent.requestFocus();
+			}
+		});
 
 	}
 
@@ -41,7 +51,8 @@ public class PaintListener implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		switch (paintPanel.getTypeButtonString()) {
 		case "addVertex": {
-			paintPanel.getGraph().addVertex(new Ellipse2D.Double(e.getX(), e.getY(), 50, 50));
+			Ellipse2D ellipse = new Ellipse2D.Double(e.getX(), e.getY(), 50, 50);
+			paintPanel.getGraph().addVertex(ellipse);
 			System.out.println("2");
 			paintPanel.setTypeButtonString("");
 			paintPanel.repaint();
@@ -112,24 +123,18 @@ public class PaintListener implements MouseListener {
 			}
 			break;
 		}
-		case "delVertex": {
-			for (int i = 0; i < paintPanel.getGraph().getVertexs().size(); i++) {
-				if (paintPanel.getGraph().getVertexs().get(i).getEllipse().intersects(e.getX(), e.getY(), 20, 20)) {
-					paintPanel.setSelected1(paintPanel.getGraph().getVertexs().get(i));
-					for (int j = 0; j < paintPanel.getSelected1().getNameVeretex() + 1; j++) {
-						paintPanel.getGraph().delVertex(paintPanel.getSelected1());
-						paintPanel.validate();
-//						paintPanel.getGraph().getVertexs().remove(paintPanel.getSelected1());
-//						paintPanel.remove(paintPanel.getSelected1().getEllipse());
-						paintPanel.repaint();
-						System.out.println(1);
-					}
-				}
-			}
-			paintPanel.setSelected1(null);
-			paintPanel.setTypeButtonString("");
-			break;
-		}
+//		case "delVertex": {
+//			for (int i = 0; i < paintPanel.getGraph().getVertexs().size(); i++) {
+//				if (paintPanel.getGraph().getVertexs().get(i).getEllipse().intersects(e.getX(), e.getY(), 20, 20)) {
+//					paintPanel.setSelected1(paintPanel.getGraph().getVertexs().get(i));
+//					paintPanel.getGraph().getVertexs().remove(paintPanel.getSelected1());
+//					paintPanel.repaint();
+//				}
+//				paintPanel.setSelected1(null);
+//				paintPanel.setTypeButtonString("");
+//			}
+//			break;
+//		}
 		case "":
 		}
 

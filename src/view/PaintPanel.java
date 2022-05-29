@@ -8,12 +8,15 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -25,8 +28,8 @@ import model.Vertex;
 public class PaintPanel extends JPanel {
 	private String typeButtonString = "";
 	private static Graph graph;
-	private static Vertex selected1 = new Vertex(0, 0, new ArrayList<>(), null);
-	private static Vertex selected2 = new Vertex(0, 0, new ArrayList<>(), null);
+	private static Vertex selected1;
+	private static Vertex selected2;
 	private boolean directed = false;
 	private boolean undirecred = false;
 	private Edge selectEdge;
@@ -194,8 +197,6 @@ public class PaintPanel extends JPanel {
 				Point2D pointToPoint2d = getPointOnCircle(edge.getNode2(), to - 22);
 				graphics2d.draw(new Line2D.Double(pointFromPoint2d, pointToPoint2d));
 			}
-
 		}
-
 	}
 }
