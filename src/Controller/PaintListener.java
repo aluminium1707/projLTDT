@@ -85,7 +85,7 @@ public class PaintListener implements MouseListener {
 								paintPanel.setSelected1(null);
 								paintPanel.setSelected2(null);
 								paintPanel.setTypeButtonString("");
-								System.out.println("Edge is available");
+								System.out.println("Edge is available.....");
 								paintPanel.repaint();
 								break;
 							}
